@@ -161,8 +161,8 @@ void FFT2() {
     }
 
     
-    canvas_hist->SaveAs("amplitude_histogram.root");
-    canvas_time->SaveAs("amplitude_vs_time.root");
-    canvas_fft->SaveAs("fft_spectrum.root");
+    canvas_hist->SaveAs("amplitude_histogram.pdf");
+    canvas_time->SaveAs("amplitude_vs_time.pdf");
+    canvas_fft->SaveAs("fft_spectrum.pdf");
 
 }
