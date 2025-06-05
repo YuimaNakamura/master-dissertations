@@ -1,5 +1,5 @@
 # master-dissertations
-output_FFT_root ではFFTが使用可能なように時間のデータに関して工夫してからrootに流し込んである
+output_FFT_root にはFFTが使用可能なように時間のデータに関して工夫してからrootに流し込んである
 
 FFT2.cは0.mseed～9.mseedファイルを
 
