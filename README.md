@@ -1,2 +1,6 @@
 # master-dissertations
 output_FFT_root ではFFTが使用可能なように時間のデータに関して工夫してからrootに流し込んである
+FFT2.cは0.mseed～9.mseedファイルを
+output_root内のcreate_csv.py
+create_root_forFFT.cppを利用して
+作成したroot ファイルをもとに作成したものです
