@@ -1,1 +1,2 @@
 # master-dissertations
+output_FFT_root ではFFTが使用可能なように時間のデータに関して工夫してからrootに流し込んである
