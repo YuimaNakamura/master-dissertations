@@ -1,2 +1,0 @@
-root -l tree.c
-
