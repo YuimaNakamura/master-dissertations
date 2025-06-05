@@ -1,0 +1,10 @@
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/step-23.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/run.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/debug.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/release.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/runclean.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/distclean.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/strip_comments.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/info.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/build/CMakeFiles/rebuild_cache.dir

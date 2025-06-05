@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/mnt/c/Users/yuiat/Documents/dealii/examples/step-23",
+  "command": "/usr/bin/c++ -DDEBUG -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /usr/include/petsc -isystem /usr/include/trilinos -isystem /usr/include/hdf5/openmpi -isystem /usr/include/scotch -isystem /usr/include/suitesparse -isystem /usr/include/opencascade -isystem /usr/include/slepc -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-class-memaccess -Wno-unused-local-typedefs -g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/deal.ii-4rZ8bF/deal.ii-9.5.1=. -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fdebug-prefix-map=/build/deal.ii-4rZ8bF/deal.ii-9.5.1=/usr/src/deal.ii-9.5.1-2build3 -Wdate-time -D_FORTIFY_SOURCE=3 -std=c++17 -Wno-nonnull-compare -Wno-address -O0 -ggdb -Wa,--compress-debug-sections -o CMakeFiles/step-23.dir/step-23.cc.o -c /mnt/c/Users/yuiat/Documents/dealii/examples/step-23/step-23.cc",
+  "file": "/mnt/c/Users/yuiat/Documents/dealii/examples/step-23/step-23.cc",
+  "output": "CMakeFiles/step-23.dir/step-23.cc.o"
+}
+]
