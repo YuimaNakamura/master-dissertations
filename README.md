@@ -7,10 +7,10 @@ FFT2.c processes the files 0.mseed to 9.mseed and converts them into ROOT files 
 
 - create_root_forFFT.cpp
 
-The resulting ROOT file was generated based on these programs.
+The resulting ROOT file was generated based on these programs. 
 
 
 
-
-TFile *file = TFile::Open("output.root");  // ROOTファイルを開く
+# Here's how you can explain how to check the contents of a TTree
+TFile *file = TFile::Open("EV_EVN_00_HHE_0.root");  // ROOTファイルを開く
 TTree *tree = (TTree*)file->Get("waveform");　//tree name の確認
