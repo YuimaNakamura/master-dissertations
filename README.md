@@ -1,12 +1,10 @@
 # master-dissertations
-output_FFT_root にはFFTが使用可能なように時間のデータに関して工夫してからrootに流し込んである
+output_FFT_root has been prepared in such a way that the time data is handled appropriately to allow for FFT processing before being stored in the ROOT file.
 
-FFT2.cは0.mseed～9.mseedファイルを
+FFT2.c processes the files 0.mseed to 9.mseed and converts them into ROOT files using the following programs:
 
-以下のプログラムでrootファイルに変換していく
+- create_csv.py
 
-create_csv.py
+- create_root_forFFT.cpp
 
-create_root_forFFT.cppを利用して
-
-作成したrootファイルをもとに作成したものです
+The resulting ROOT file was generated based on these programs.
