@@ -1,4 +1,4 @@
-Practice with the deal.II tutorials
+# Practice with the deal.II tutorials
 
 Step-23 is a practice for the wave equation.
 In the build case, the mesh is created on an elliptical domain using rectangular minimal units.
