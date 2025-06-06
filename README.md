@@ -23,3 +23,22 @@ Step-23 is a practice for the wave equation.
   - Go to `Tools → Options` and check **2D elements faces**.
   - Export the mesh by selecting `File → Export` and save as a **.msh** file.
   - Choose **version 2 ASCII** format when exporting.
+
+<br>  
+<br>  
+<br>  
+
+For reference, see the official deal.II tutorial:  
+
+https://dealii.org/current/doxygen/deal.II/step_1.html
+
+https://dealii.org/current/doxygen/deal.II/step_2.html
+
+https://dealii.org/current/doxygen/deal.II/step_3.html
+
+https://dealii.org/current/doxygen/deal.II/step_4.html
+
+https://dealii.org/current/doxygen/deal.II/step_23.html
+
+https://dealii.org/current/doxygen/deal.II/step_62.html
+
