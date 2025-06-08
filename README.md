@@ -28,7 +28,9 @@ Step-23 is a practice for the wave equation.
 <br>  
 <br>  
 
-For reference, see the official deal.II tutorial:  
+## For reference, 
+
+### the official deal.II tutorial:  
 
 https://dealii.org/current/doxygen/deal.II/step_1.html
 
@@ -41,4 +43,8 @@ https://dealii.org/current/doxygen/deal.II/step_4.html
 https://dealii.org/current/doxygen/deal.II/step_23.html
 
 https://dealii.org/current/doxygen/deal.II/step_62.html
+
+### the official deal.II video lectures:
+
+https://www.math.colostate.edu/~bangerth/videos.html
 
