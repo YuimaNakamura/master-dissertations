@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/yuiat/soft/dealii-9.6.2/examples/step-62",
+  "command": "/usr/bin/c++ -DDEBUG -isystem /home/yuiat/soft/dealii-9.6.2/build/include -isystem /home/yuiat/soft/dealii-9.6.2/include -isystem /home/yuiat/soft/dealii-9.6.2/bundled/boost-1.84.0/include -isystem /home/yuiat/soft/dealii-9.6.2/bundled/umfpack/UMFPACK/Include -isystem /home/yuiat/soft/dealii-9.6.2/bundled/umfpack/AMD/Include -isystem /home/yuiat/soft/dealii-9.6.2/bundled/kokkos-3.7.00/algorithms/src -isystem /home/yuiat/soft/dealii-9.6.2/bundled/kokkos-3.7.00/containers/src -isystem /home/yuiat/soft/dealii-9.6.2/bundled/kokkos-3.7.00/core/src -isystem /home/yuiat/soft/dealii-9.6.2/bundled/kokkos-3.7.00/simd/src -isystem /home/yuiat/soft/dealii-9.6.2/bundled/kokkos-3.7.00/tpls/desul/include -isystem /home/yuiat/soft/dealii-9.6.2/bundled/muparser_v2_3_3/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /home/yuiat/soft/petsc-install/include -isystem /home/yuiat/soft/hdf5-mpi/include -isystem /home/yuiat/soft/p4est-install/FAST/include -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-unused-local-typedefs -Wno-parentheses -fopenmp-simd -O0 -ggdb -Wa,--compress-debug-sections -o CMakeFiles/step-62.dir/step-62.cc.o -c /home/yuiat/soft/dealii-9.6.2/examples/step-62/step-62.cc",
+  "file": "/home/yuiat/soft/dealii-9.6.2/examples/step-62/step-62.cc",
+  "output": "CMakeFiles/step-62.dir/step-62.cc.o"
+}
+]
