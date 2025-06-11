@@ -1,9 +1,37 @@
 # Practice with the deal.II tutorials
 
-Step-23 is a practice for the wave equation.
+## 🟦 **step-23**
 
-- In the build case, the mesh is created on an elliptical domain using rectangular minimal units.
-- In the merge case, the geometry is created with FreeCAD, and the initial mesh is generated in Gmsh using triangular minimal units.
+- **Domain**: Unit square or similar simple shape.
+- **Mesh**: Structured mesh generated programmatically in deal.II.
+- **Elements**: Typically rectangular or quadrilateral.
+- **Output**: Solution of the wave equation is written to `.vtu` files.
+
+---
+
+## 🟨 **ellipse**
+
+- **Domain**: Elliptical shape.
+- **Mesh**: Created directly in deal.II using a mesh that approximates an ellipse with rectangular/quadrilateral elements.
+- **Purpose**: To simulate wave propagation in a smoothly curved domain.
+- **Output**: VTU files generated to visualize the wave equation solution over time.
+
+---
+
+## 🟥 **merge**
+
+- **Domain**: Complex geometry created using FreeCAD.
+- **Process**:
+  1. Design in **FreeCAD**.
+  2. Export to `.iges`.
+  3. Mesh in **Gmsh** into `.msh` format using triangular elements.
+  4. Import into **deal.II** using `GridIn`.
+- **Mesh**: Unstructured triangular mesh.
+- **Purpose**: To test custom/realistic geometry workflows.
+- **Output**: Time-evolved wave equation solution written in `.vtu` files.
+
+---
+
 
 <br>  
 <br>  
