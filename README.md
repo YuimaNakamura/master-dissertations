@@ -37,7 +37,7 @@
 <br>  
 <br>  
 
-- In FreeCAD:
+- 🔵In FreeCAD:
   - Use the **Part Design** workbench.
   - Create a **Body** and then a **Sketch**.
   - Draw a reference shape about 5mm × 5mm.
@@ -45,7 +45,7 @@
   - Make sure to create the surface bounded by at least two lines.
   - Export the file via `File → Export` as an **IGES** file.
 
-- In Gmsh software:
+- 🟢In Gmsh software:
   - Open the IGES file by selecting `Open` and navigating to the directory.
   - In Gmsh, go to the **Mesh** menu and select **2D**.
   - Go to `Tools → Options` and check **2D elements faces**.
