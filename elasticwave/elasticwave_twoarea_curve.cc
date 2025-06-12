@@ -260,11 +260,11 @@ namespace ElasticWave2D
     GridGenerator::hyper_cube(triangulation, -1, 1);
     triangulation.refine_global(6);
 
-    // material_id の設定（波打つ境界 y < 0.3 sin(3πx)）
+    // material_id の設定（波打つ境界 y < sin(x)）
     for (const auto &cell : triangulation.active_cell_iterators())
     {
       const Point<dim> p = cell->center();
-      if (p[1] < 0.3 * std::sin(3 * numbers::PI * p[0]))
+      if (p[1] < std::sin(p[0]))
         cell->set_material_id(0); // 柔らかい
       else
         cell->set_material_id(1); // 硬い
