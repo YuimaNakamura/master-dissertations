@@ -32,7 +32,7 @@
 
 ---
 
-## 🟦 **elastic(elasticwave_twoarea_curve)**
+## 🟦 **elastic(elasticwave_twoarea_curve.cc)**
 
 # 2D Elastic Wave Equation Simulation (deal.II)
 
