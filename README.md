@@ -36,6 +36,8 @@
 
 # 2D Elastic Wave Equation Simulation (deal.II)
 
+We do not consider PML (Perfectly Matched Layer) in this simulation; instead, fixed boundary conditions are applied, causing elastic waves to reflect completely at the domain boundaries.
+
 This repository implements a 2D elastic wave equation solver using the finite element library deal.II.
 The time integration is performed explicitly by the central difference method, and the displacement
 field is output as VTU files at each time step for visualization.
