@@ -1,6 +1,6 @@
-// ヘッダー部（元コードと同じ）
-//楕円内部は密度が低いため波の伝搬速度が早く
-//楕円外部は密度が高いため波の伝搬が遅くなるように書いてある
+// deal.IIバージョン: 9.5以降推奨（FE_SimplexPと三角形メッシュ対応）
+// 三角形要素に対応した2D弾性波動方程式の陽的時間積分
+
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/function.h>
 #include <deal.II/base/tensor.h>
@@ -21,8 +21,7 @@
 
 #include <deal.II/fe/fe_values.h>
 #include <deal.II/fe/fe_system.h>
-#include <deal.II/fe/fe_q.h>
-
+#include <deal.II/fe/fe_simplex_p.h>
 
 #include <deal.II/numerics/vector_tools.h>
 #include <deal.II/numerics/data_out.h>
@@ -89,7 +88,7 @@ namespace ElasticWave2D
   template <int dim>
   ElasticWave<dim>::ElasticWave()
     : dof_handler(triangulation)
-    , fe(FE_Q<dim>(1), dim)
+    , fe(FE_SimplexP<dim>(1), dim) // 三角形要素に変更
     , time(0.)
     , time_step_size(1e-3)
     , timestep_number(0)
@@ -121,7 +120,7 @@ namespace ElasticWave2D
   void ElasticWave<dim>::assemble_system()
   {
     stiffness_matrix = 0;
-    QGauss<dim> quadrature_formula(fe.degree + 1);
+    QGaussSimplex<dim> quadrature_formula(fe.degree + 1);
     FEValues<dim> fe_values(fe, quadrature_formula, update_gradients | update_JxW_values);
 
     const unsigned int dofs_per_cell = fe.n_dofs_per_cell();
@@ -168,7 +167,7 @@ namespace ElasticWave2D
   void ElasticWave<dim>::assemble_mass_matrix()
   {
     mass_matrix = 0;
-    QGauss<dim> quadrature_formula(fe.degree + 1);
+    QGaussSimplex<dim> quadrature_formula(fe.degree + 1);
     FEValues<dim> fe_values(fe, quadrature_formula, update_values | update_JxW_values);
 
     const unsigned int dofs_per_cell = fe.n_dofs_per_cell();
@@ -215,7 +214,7 @@ namespace ElasticWave2D
       for (unsigned int i = 0; i < fe.n_dofs_per_cell(); ++i)
       {
         const unsigned int comp = fe.system_to_component_index(i).first;
-        const Point<dim> p = cell->vertex(i / dim); // 簡易な近似
+        const Point<dim> p = cell->vertex(i / dim); // 近似
 
         if (p.distance(Point<dim>()) < 0.2 && comp == 0)
           solution_n(local_dof_indices[i]) = 0.01 * std::exp(-50 * p.square());
@@ -260,23 +259,22 @@ namespace ElasticWave2D
   template <int dim>
   void ElasticWave<dim>::run()
   {
-    GridGenerator::hyper_cube(triangulation, -1, 1);
-    triangulation.refine_global(6);
+    GridGenerator::subdivided_hyper_cube_with_simplices(triangulation, 32, -1, 1); // 三角形格子
+    triangulation.refine_global(2); // 初期の分割で十分
 
     for (const auto &cell : triangulation.active_cell_iterators())
     {
-    const Point<dim> p = cell->center();
-    const double x = p[0];
-    const double y = p[1];
-    const double a = 0.5; // 楕円の長軸半径
-    const double b = 0.3; // 楕円の短軸半径
+      const Point<dim> p = cell->center();
+      const double x = p[0];
+      const double y = p[1];
+      const double a = 0.5;
+      const double b = 0.3;
 
-    if ((x*x)/(a*a) + (y*y)/(b*b) < 1.0)
-        cell->set_material_id(0); // 楕円の内側
-    else
-        cell->set_material_id(1); // 楕円の外側
+      if ((x * x) / (a * a) + (y * y) / (b * b) < 1.0)
+        cell->set_material_id(0); // 楕円内
+      else
+        cell->set_material_id(1); // 外部
     }
-
 
     setup_system();
     assemble_system();
