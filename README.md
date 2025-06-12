@@ -34,6 +34,105 @@
 
 ## 🟦 **elastic**
 
+# 2D Elastic Wave Equation Simulation (deal.II)
+
+This repository implements a 2D elastic wave equation solver using the finite element library deal.II.
+The time integration is performed explicitly by the central difference method, and the displacement
+field is output as VTU files at each time step for visualization.
+
+---
+
+## Overview
+
+- Uses $Q_1$ (linear) finite elements for the displacement vector $(u_x, u_y)$.
+- The spatial domain is a square subdivided 6 times uniformly.
+- Two materials are defined by `material_id`, each having different physical properties:
+  density $\rho$, and Lamé parameters $\lambda$ and $\mu$.
+- Time integration uses an explicit central difference scheme.
+- Results are saved in VTU format every 10 time steps for post-processing.
+
+---
+
+## Mathematical Model
+
+### Elastic Wave Equation
+
+The 2D elastic wave equation is given by the PDE:
+
+$$
+\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = \nabla \cdot \boldsymbol{\sigma}
+$$
+
+where
+
+- $\mathbf{u} = (u_x, u_y)$ is the displacement vector,
+- $\rho$ is the density,
+- $\boldsymbol{\sigma}$ is the stress tensor, defined by Hooke's law for linear elasticity with Lamé parameters $\lambda, \mu$.
+
+---
+
+## Numerical Discretization and Time Integration
+
+### Spatial Discretization
+
+Using the finite element method, we approximate the displacement vector $\mathbf{u}$
+with basis functions and assemble the stiffness matrix $K$ and mass matrix $M$.
+
+---
+
+### Time Integration: Explicit Central Difference Method
+
+The time stepping scheme for the displacement vector is:
+
+$$
+\mathbf{u}^{n+1} = \Delta t^2 M^{-1} (-K \mathbf{u}^n) + 2 \mathbf{u}^n - \mathbf{u}^{n-1}
+$$
+
+where
+
+- $\mathbf{u}^n$ is the displacement vector at time step $n$,
+- $\Delta t$ is the time step size,
+- $M$ is the mass matrix, and $K$ is the stiffness matrix.
+
+---
+
+#### Derivation of the Scheme (Outline)
+
+1. Starting from the semi-discretized equation in space:
+
+$$
+M \frac{d^2 \mathbf{u}}{d t^2} + K \mathbf{u} = 0
+$$
+
+2. Approximate the second time derivative by the central difference:
+
+$$
+\frac{d^2 \mathbf{u}}{d t^2} \approx \frac{\mathbf{u}^{n+1} - 2 \mathbf{u}^n + \mathbf{u}^{n-1}}{\Delta t^2}
+$$
+
+3. Substitute into the equation and rearrange:
+
+$$
+M \frac{\mathbf{u}^{n+1} - 2 \mathbf{u}^n + \mathbf{u}^{n-1}}{\Delta t^2} + K \mathbf{u}^n = 0
+$$
+
+4. Solve for $\mathbf{u}^{n+1}$:
+
+$$
+\mathbf{u}^{n+1} = \Delta t^2 M^{-1} (-K \mathbf{u}^n) + 2 \mathbf{u}^n - \mathbf{u}^{n-1}
+$$
+
+---
+
+## Code Structure
+
+- The main functionality is implemented in the `ElasticWave` class.
+- `setup_system()` initializes finite element spaces and boundary conditions.
+- `assemble_system()` assembles the stiffness matrix $K$.
+- `assemble_mass_matrix()` assembles the mass matrix $M$ and computes its inverse diagonal entries.
+- `initialize_solution()` sets the initial displacement (e.g., Gaussian pulse).
+- `time_step()` updates the solution using the explicit central difference scheme.
+- `output_results()` writes the solution to VTU files.
 
 
 ---
