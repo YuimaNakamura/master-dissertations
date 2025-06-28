@@ -150,6 +150,7 @@ $$
   - Draw a reference shape about 5mm × 5mm.
   - Switch to the **Surface Workbench** and use the **Filling** tool.
   - Make sure to create the surface bounded by at least two lines.
+  - Select the target surfaces and then export them
   - Export the file via `File → Export` as an **IGES** file.
 
 - 🟢In Gmsh software:
