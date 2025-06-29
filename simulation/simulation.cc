@@ -36,24 +36,42 @@ namespace ElasticWave2D
   {
     static double rho(const types::material_id id)
     {
-      if (id == 0) return 917.0;     // 氷層
-      if (id == 1) return 2500.0;    // 両脇（岩）
-      if (id == 2) return 2700.0;    // 下層部（基盤）
+      // ρ: g/cm³ -> kg/m³ に変換（×1000）
+      if (id == 0) return 0.9 * 1000.0;     // 氷層
+      if (id == 1) return 2.25 * 1000.0;    // 両脇 (中央値2.1-2.4)
+      if (id == 2) return 2.7 * 1000.0;     // 下層部 (中央値2.5-2.9)
       return 1000.0;
+    }
+
+    static double vp(const types::material_id id)
+    {
+      if (id == 0) return (3400.0 + 3800.0) / 2.0;   // 氷層のVp中央値
+      if (id == 1) return (1500.0 + 2200.0) / 2.0;   // 両脇のVp中央値
+      if (id == 2) return (4500.0 + 6000.0) / 2.0;   // 下層部のVp中央値
+      return 0.0;
+    }
+
+    static double vs(const types::material_id id)
+    {
+      if (id == 0) return (1700.0 + 1900.0) / 2.0;   // 氷層のVs中央値
+      if (id == 1) return (500.0 + 750.0) / 2.0;     // 両脇のVs中央値
+      if (id == 2) return (2700.0 + 3200.0) / 2.0;   // 下層部のVs中央値
+      return 0.0;
     }
 
     static double lambda(const types::material_id id)
     {
-      const double vp = (id == 0) ? 3800.0 : (id == 1) ? 6000.0 : 6500.0;
-      const double vs = (id == 0) ? 1900.0 : (id == 1) ? 3464.0 : 3700.0;
+      const double vp_val = vp(id);
+      const double vs_val = vs(id);
       const double rho_val = rho(id);
-      return rho_val * (vp * vp - 2 * vs * vs);
+      return rho_val * (vp_val * vp_val - 2.0 * vs_val * vs_val);
     }
 
     static double mu(const types::material_id id)
     {
-      const double vs = (id == 0) ? 1900.0 : (id == 1) ? 3464.0 : 3700.0;
-      return rho(id) * vs * vs;
+      const double vs_val = vs(id);
+      const double rho_val = rho(id);
+      return rho_val * vs_val * vs_val;
     }
   };
 
