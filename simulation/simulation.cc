@@ -1,226 +1,278 @@
-#include <deal.II/base/utilities.h>
+#include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/function.h>
-#include <deal.II/base/timer.h>
+#include <deal.II/base/tensor.h>
+#include <deal.II/base/logstream.h>
+#include <deal.II/base/point.h>
+#include <deal.II/base/utilities.h>
 
 #include <deal.II/lac/vector.h>
 #include <deal.II/lac/full_matrix.h>
+#include <deal.II/lac/sparse_matrix.h>
+#include <deal.II/lac/dynamic_sparsity_pattern.h>
+#include <deal.II/lac/affine_constraints.h>
 
-#include <deal.II/grid/tria.h>
 #include <deal.II/grid/grid_in.h>
+#include <deal.II/grid/tria.h>
 
 #include <deal.II/dofs/dof_handler.h>
 #include <deal.II/dofs/dof_tools.h>
 
-#include <deal.II/fe/fe_q.h>
+#include <deal.II/fe/fe_values.h>
+#include <deal.II/fe/fe_system.h>
+#include <deal.II/fe/fe_simplex_p.h>
 
+#include <deal.II/numerics/vector_tools.h>
 #include <deal.II/numerics/data_out.h>
 
 #include <fstream>
 #include <iostream>
 
-using namespace dealii;
-
-template <int dim>
-class WaveEquation
+namespace ElasticWave2D
 {
-public:
-  WaveEquation();
-  void run();
+  using namespace dealii;
 
-private:
-  void make_grid();
-  void setup_system();
-  void assemble_system();
-  void apply_initial_conditions();
-  void time_step();
-  void output_results(const unsigned int timestep) const;
-
-  Triangulation<dim> triangulation;
-  FE_Q<dim>          fe;
-  DoFHandler<dim>    dof_handler;
-
-  Vector<double> solution;        // 変位 u^n
-  Vector<double> solution_old;    // 変位 u^{n-1}
-  Vector<double> solution_new;    // 変位 u^{n+1}
-  Vector<double> system_rhs;
-
-  // 物性パラメータ：P波速度, S波速度, 密度を領域ごとに保存
-  std::map<unsigned int, double> p_wave_speed;
-  std::map<unsigned int, double> s_wave_speed;
-  std::map<unsigned int, double> density;
-
-  double dt;  // 時間刻み
-  unsigned int n_time_steps;
-
-  // ここではシンプルな陽的時間積分
-};
-
-template <int dim>
-WaveEquation<dim>::WaveEquation()
-  : fe(1)
-  , dof_handler(triangulation)
-  , dt(0.001)
-  , n_time_steps(1000)
-{}
-
-template <int dim>
-void WaveEquation<dim>::make_grid()
-{
-  GridIn<dim> grid_in;
-  grid_in.attach_triangulation(triangulation);
-  std::ifstream input_file("simulation1.msh");
-  Assert(dim == 2, ExcNotImplemented());
-  grid_in.read_msh(input_file);
-
-  std::cout << "Cells: " << triangulation.n_cells() << std::endl;
-  std::cout << "Vertices: " << triangulation.n_vertices() << std::endl;
-
-  triangulation.refine_global(0); // ここは必要に応じて調整
-
-  std::cout << "Grid loaded." << std::endl;
-}
-
-template <int dim>
-void WaveEquation<dim>::setup_system()
-{
-  dof_handler.distribute_dofs(fe);
-
-  solution.reinit(dof_handler.n_dofs());
-  solution_old.reinit(dof_handler.n_dofs());
-  solution_new.reinit(dof_handler.n_dofs());
-  system_rhs.reinit(dof_handler.n_dofs());
-
-  // 物性パラメータ設定（material_id = 0,1,2 に対応）
-  // P波速度[m/s], S波速度[m/s], 密度[kg/m3] は適宜実測値に置き換えてください
-  p_wave_speed[0] = 3800.0;   // 氷層
-  s_wave_speed[0] = 1900.0;
-  density[0]      = 900.0;
-
-  p_wave_speed[1] = 5000.0;   // 両脇層
-  s_wave_speed[1] = 3000.0;
-  density[1]      = 2700.0;
-
-  p_wave_speed[2] = 6000.0;   // 下部gneiss層
-  s_wave_speed[2] = 3500.0;
-  density[2]      = 2700.0;
-}
-
-template <int dim>
-void WaveEquation<dim>::apply_initial_conditions()
-{
-  solution = 0;
-  solution_old = 0;
-  solution_new = 0;
-}
-
-template <int dim>
-void WaveEquation<dim>::assemble_system()
-{
-  // ここでは簡易的に system_rhs に波源の力を設定する例を示す
-
-  // 波源位置の範囲（x座標, y座標）を指定
-  // 氷層はx=0..500m, y=0..240m
-  // 両脇層はx=-30..0と500..530m, y=0..240m
-  // 下部層はx=0..500m, y=-30..0m
-  //
-  // 波源は氷層の右側の層の右上端から右に水平に100m部分、例えば (530..630, 210..240) に置く想定
-  // ここでは簡単に (530 <= x <= 630, 210 <= y <= 240) に非ゼロの力を与える
-
-  // まずrhsを0に
-  system_rhs = 0;
-
-  // 各自由度の位置を取得
-  std::vector<Point<dim>> support_points(dof_handler.n_dofs());
-  DoFTools::map_dofs_to_support_points(MappingQ1<dim>(), dof_handler, support_points);
-
-  // 力の強さ
-  const double force_magnitude = 1e6; // 適宜調整
-
-  for (unsigned int i=0; i < dof_handler.n_dofs(); ++i)
+  template <int dim>
+  struct MaterialProperty
   {
-    // 変位はdim成分なので、iがどの成分か判定する必要あり
-    const unsigned int component_i = fe.system_to_component_index(i).first;
-    // 水平方向成分（component 0）にのみ力を加える想定
-    if (component_i == 0)
+    static double rho(const types::material_id id)
     {
-      const Point<dim> &p = support_points[i];
-      if (p[0] >= 530 && p[0] <= 630 &&
-          p[1] >= 210 && p[1] <= 240)
+      if (id == 0) return 917.0;     // 氷層
+      if (id == 1) return 2500.0;    // 両脇（岩）
+      if (id == 2) return 2700.0;    // 下層部（基盤）
+      return 1000.0;
+    }
+
+    static double lambda(const types::material_id id)
+    {
+      const double vp = (id == 0) ? 3800.0 : (id == 1) ? 6000.0 : 6500.0;
+      const double vs = (id == 0) ? 1900.0 : (id == 1) ? 3464.0 : 3700.0;
+      const double rho_val = rho(id);
+      return rho_val * (vp * vp - 2 * vs * vs);
+    }
+
+    static double mu(const types::material_id id)
+    {
+      const double vs = (id == 0) ? 1900.0 : (id == 1) ? 3464.0 : 3700.0;
+      return rho(id) * vs * vs;
+    }
+  };
+
+  template <int dim>
+  class ElasticWave
+  {
+  public:
+    ElasticWave();
+    void run();
+
+  private:
+    void setup_system();
+    void assemble_system();
+    void assemble_mass_matrix();
+    void initialize_solution();
+    void time_step();
+    void output_results(const unsigned int timestep) const;
+
+    Triangulation<dim> triangulation;
+    DoFHandler<dim>    dof_handler;
+    FESystem<dim>      fe;
+    AffineConstraints<double> constraints;
+
+    SparsityPattern      sparsity_pattern;
+    SparseMatrix<double> stiffness_matrix;
+    SparseMatrix<double> mass_matrix;
+
+    Vector<double> solution_n, solution_nm1, solution_np1;
+    Vector<double> system_rhs;
+    Vector<double> mass_matrix_diagonal_inverse;
+
+    double time;
+    double time_step_size;
+    unsigned int timestep_number;
+  };
+
+  template <int dim>
+  ElasticWave<dim>::ElasticWave()
+    : dof_handler(triangulation)
+    , fe(FE_SimplexP<dim>(1), dim)
+    , time(0.0)
+    , time_step_size(1e-4)
+    , timestep_number(0)
+  {}
+
+  template <int dim>
+  void ElasticWave<dim>::setup_system()
+  {
+    dof_handler.distribute_dofs(fe);
+    solution_n.reinit(dof_handler.n_dofs());
+    solution_nm1.reinit(dof_handler.n_dofs());
+    solution_np1.reinit(dof_handler.n_dofs());
+    system_rhs.reinit(dof_handler.n_dofs());
+
+    constraints.clear();
+    DoFTools::make_hanging_node_constraints(dof_handler, constraints);
+    constraints.close();
+
+    DynamicSparsityPattern dsp(dof_handler.n_dofs());
+    DoFTools::make_sparsity_pattern(dof_handler, dsp, constraints, false);
+    sparsity_pattern.copy_from(dsp);
+
+    stiffness_matrix.reinit(sparsity_pattern);
+    mass_matrix.reinit(sparsity_pattern);
+  }
+
+  template <int dim>
+  void ElasticWave<dim>::assemble_system()
+  {
+    stiffness_matrix = 0;
+    QGaussSimplex<dim> quadrature_formula(fe.degree + 1);
+    FEValues<dim> fe_values(fe, quadrature_formula, update_gradients | update_JxW_values);
+
+    const unsigned int dofs_per_cell = fe.n_dofs_per_cell();
+    FullMatrix<double> cell_matrix(dofs_per_cell, dofs_per_cell);
+    std::vector<types::global_dof_index> local_dof_indices(dofs_per_cell);
+
+    for (const auto &cell : dof_handler.active_cell_iterators())
+    {
+      fe_values.reinit(cell);
+      cell_matrix = 0;
+      const auto id = cell->material_id();
+
+      const double lambda = MaterialProperty<dim>::lambda(id);
+      const double mu     = MaterialProperty<dim>::mu(id);
+
+      for (unsigned int q = 0; q < fe_values.n_quadrature_points; ++q)
       {
-        system_rhs[i] = force_magnitude;
+        for (unsigned int i = 0; i < dofs_per_cell; ++i)
+        {
+          const auto ci = fe.system_to_component_index(i).first;
+          const Tensor<1, dim> grad_i = fe_values.shape_grad(i, q);
+
+          for (unsigned int j = 0; j < dofs_per_cell; ++j)
+          {
+            const auto cj = fe.system_to_component_index(j).first;
+            const Tensor<1, dim> grad_j = fe_values.shape_grad(j, q);
+
+            double val = lambda * grad_i[ci] * grad_j[cj]
+                       + mu * (grad_i * grad_j) * (ci == cj)
+                       + mu * grad_i[cj] * grad_j[ci];
+
+            cell_matrix(i, j) += val * fe_values.JxW(q);
+          }
+        }
+      }
+
+      cell->get_dof_indices(local_dof_indices);
+      constraints.distribute_local_to_global(cell_matrix, local_dof_indices, stiffness_matrix);
+    }
+  }
+
+  template <int dim>
+  void ElasticWave<dim>::assemble_mass_matrix()
+  {
+    mass_matrix = 0;
+    QGaussSimplex<dim> quadrature_formula(fe.degree + 1);
+    FEValues<dim> fe_values(fe, quadrature_formula, update_values | update_JxW_values);
+
+    const unsigned int dofs_per_cell = fe.n_dofs_per_cell();
+    FullMatrix<double> cell_mass(dofs_per_cell, dofs_per_cell);
+    std::vector<types::global_dof_index> local_dof_indices(dofs_per_cell);
+
+    for (const auto &cell : dof_handler.active_cell_iterators())
+    {
+      fe_values.reinit(cell);
+      cell_mass = 0;
+      const double rho = MaterialProperty<dim>::rho(cell->material_id());
+
+      for (unsigned int q = 0; q < fe_values.n_quadrature_points; ++q)
+        for (unsigned int i = 0; i < dofs_per_cell; ++i)
+          for (unsigned int j = 0; j < dofs_per_cell; ++j)
+            cell_mass(i, j) += rho * fe_values.shape_value(i, q) *
+                               fe_values.shape_value(j, q) *
+                               fe_values.JxW(q);
+
+      cell->get_dof_indices(local_dof_indices);
+      constraints.distribute_local_to_global(cell_mass, local_dof_indices, mass_matrix);
+    }
+
+    mass_matrix_diagonal_inverse.reinit(mass_matrix.m());
+    for (unsigned int i = 0; i < mass_matrix.m(); ++i)
+      mass_matrix_diagonal_inverse[i] = 1.0 / mass_matrix.diag_element(i);
+  }
+
+  template <int dim>
+  void ElasticWave<dim>::initialize_solution()
+  {
+    solution_n = 0;
+    solution_nm1 = 0;
+
+    for (const auto &cell : dof_handler.active_cell_iterators())
+    {
+      std::vector<types::global_dof_index> local_dof_indices(fe.n_dofs_per_cell());
+      cell->get_dof_indices(local_dof_indices);
+
+      for (unsigned int i = 0; i < fe.n_dofs_per_cell(); ++i)
+      {
+        const unsigned int comp = fe.system_to_component_index(i).first;
+        const Point<dim> p = cell->vertex(i / dim);
+        if (p.distance(Point<dim>(0.0, 120.0)) < 10.0 && comp == 1)
+          solution_n(local_dof_indices[i]) = 0.01 * std::exp(-0.01 * p.distance_square(Point<dim>(0.0, 120.0)));
       }
     }
+
+    solution_nm1 = solution_n;
   }
-}
 
-template <int dim>
-void WaveEquation<dim>::time_step()
-{
-  // ここでは単純な陽的中央差分法の例（非常に簡易、安定条件注意）
-
-  // 解の自由度数
-  const unsigned int n_dofs = dof_handler.n_dofs();
-
-  // 運動方程式の簡易離散化
-  // M (u^{n+1} - 2 u^{n} + u^{n-1}) / dt^2 = F - K u^n
-  // ここでは質量行列Mと剛性行列Kを仮定せず、単純化のため
-  // system_rhsに外力を代入、M,Kを単位行列として近似
-
-  for (unsigned int i=0; i<n_dofs; ++i)
+  template <int dim>
+  void ElasticWave<dim>::time_step()
   {
-    solution_new[i] = 2*solution[i] - solution_old[i] + dt*dt*system_rhs[i];
+    stiffness_matrix.vmult(system_rhs, solution_n);
+    system_rhs *= -1.0;
+
+    for (unsigned int i = 0; i < system_rhs.size(); ++i)
+      solution_np1[i] = mass_matrix_diagonal_inverse[i] * system_rhs[i] * time_step_size * time_step_size
+                        + 2.0 * solution_n[i] - solution_nm1[i];
+
+    constraints.distribute(solution_np1);
+    solution_nm1 = solution_n;
+    solution_n = solution_np1;
+    time += time_step_size;
+    ++timestep_number;
   }
 
-  solution_old = solution;
-  solution = solution_new;
-}
-
-template <int dim>
-void WaveEquation<dim>::output_results(const unsigned int timestep_number) const
-{
+  template <int dim>
+  void ElasticWave<dim>::output_results(const unsigned int timestep) const
+  {
     DataOut<dim> data_out;
-
     data_out.attach_dof_handler(dof_handler);
-
-    // displacement vectorを出力（ベクトル値）
-    data_out.add_data_vector(solution, displacement_names, DataOut<dim>::type_dof_data);
-
-    // material_idはセルデータなので、unsigned int → double のベクトルに変換して渡す
-    std::vector<double> material_ids_double(triangulation.n_active_cells());
-    unsigned int idx = 0;
-    for (const auto &cell : triangulation.active_cell_iterators())
-    {
-        material_ids_double[idx] = static_cast<double>(cell->material_id());
-        ++idx;
-    }
-    // セルデータとして追加するために第3引数でtype_cell_dataを指定
-    data_out.add_data_vector(material_ids_double, "material_id", DataOut<dim>::type_cell_data);
-
+    data_out.add_data_vector(solution_n, "displacement");
     data_out.build_patches();
 
-    // ファイル名を作成（例: solution-000.vtu）
-    std::string filename = "solution-" + Utilities::int_to_string(timestep_number, 3) + ".vtu";
+    const std::string filename = "solution-" + Utilities::int_to_string(timestep, 4) + ".vtu";
     std::ofstream output(filename);
     data_out.write_vtu(output);
+  }
 
-    std::cout << "Output results to " << filename << std::endl;
-}
-
-
-template <int dim>
-void WaveEquation<dim>::run()
-{
-  make_grid();
-  setup_system();
-  apply_initial_conditions();
-
-  for (unsigned int timestep=0; timestep<n_time_steps; ++timestep)
+  template <int dim>
+  void ElasticWave<dim>::run()
   {
-    assemble_system();
-    time_step();
+    GridIn<dim> grid_in;
+    grid_in.attach_triangulation(triangulation);
+    std::ifstream input_file("../simulation1.msh");
+    grid_in.read_msh(input_file);
 
-    if (timestep % 10 == 0)
-      output_results(timestep);
+    setup_system();
+    assemble_system();
+    assemble_mass_matrix();
+    initialize_solution();
+    output_results(timestep_number);
+
+    const unsigned int n_steps = 2000;
+    for (unsigned int step = 1; step <= n_steps; ++step)
+    {
+      time_step();
+      if (step % 20 == 0)
+        output_results(timestep_number);
+    }
   }
 }
 
@@ -228,8 +280,8 @@ int main()
 {
   try
   {
-    WaveEquation<2> wave_equation_2d;
-    wave_equation_2d.run();
+    ElasticWave2D::ElasticWave<2> simulation;
+    simulation.run();
   }
   catch (std::exception &exc)
   {
