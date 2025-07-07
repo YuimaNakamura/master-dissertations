@@ -263,7 +263,7 @@ namespace ElasticWave2D
       solution_n = 0;
       solution_nm1 = 0;
 
-      const Point<dim> source_center(190000.0, 0.0);
+      const Point<dim> source_center(280000.0, 100000.0);
 
       double min_distance = std::numeric_limits<double>::max();
       types::global_dof_index nearest_dof = numbers::invalid_dof_index;
