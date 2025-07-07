@@ -1,0 +1,10 @@
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/elasticwave_twoarea_ellipse_simplex.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/run.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/debug.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/release.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/runclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/distclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/strip_comments.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/info.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/elasticwave/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,20 @@
+Material: gneiss
+  rho [g/cm^3]: 2.6
+  Vp  [m/s]:    5250
+  Vs  [m/s]:    2950
+  lambda [Pa]:  2.64095e+10
+  mu     [Pa]:  2.26265e+10
+
+Material: ice
+  rho [g/cm^3]: 0.9
+  Vp  [m/s]:    3600
+  Vs  [m/s]:    1800
+  lambda [Pa]:  5.832e+09
+  mu     [Pa]:  2.916e+09
+
+Material: saturated_shale_and_silt
+  rho [g/cm^3]: 2.25
+  Vp  [m/s]:    1850
+  Vs  [m/s]:    625
+  lambda [Pa]:  5.94281e+09
+  mu     [Pa]:  8.78906e+08

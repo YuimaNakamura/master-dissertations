@@ -1,0 +1,10 @@
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/simulation_notcenter1.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/run.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/debug.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/release.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/runclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/distclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/strip_comments.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/info.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,3 @@
+2 19 "ice"
+2 20 "saturated_shale_and_silt"
+2 21 "gneiss"

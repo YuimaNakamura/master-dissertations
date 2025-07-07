@@ -21,6 +21,15 @@ int main()
     grid_in.read_msh(input_file);
     std::cout << "✅ メッシュファイルの読み込みに成功しました。" << std::endl;
     std::cout << "  セル数: " << triangulation.n_active_cells() << std::endl;
+
+    // 追加部分：material_idの表示
+    std::cout << "---- 各セルの material_id ----" << std::endl;
+    for (const auto &cell : triangulation.active_cell_iterators())
+    {
+      std::cout << "Cell index: " << cell->index()
+                << ", material_id: " << cell->material_id() << std::endl;
+    }
+
   }
   catch (std::exception &exc)
   {
@@ -32,6 +41,7 @@ int main()
     std::cerr << "❌ 未知の例外が発生しました。" << std::endl;
     return 1;
   }
+
 
   return 0;
 }
