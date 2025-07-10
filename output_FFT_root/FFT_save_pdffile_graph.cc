@@ -6,7 +6,7 @@
 #include "TH1.h"
 
 
-void FFT_graph() {
+void FFT_save_pdffile_graph() {
     const int n_files = 10;
     const char* channels[3] = {"HHE", "HHN", "HHZ"};
     const int n_channels = 3;
