@@ -1,0 +1,10 @@
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/simulation_csvfile_detectdofver.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/run.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/debug.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/release.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/runclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/distclean.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/strip_comments.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/info.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles/rebuild_cache.dir

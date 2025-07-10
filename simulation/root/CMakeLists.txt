@@ -1,5 +1,5 @@
 # Set the name of the project and target:
-set(TARGET "simulation_csvfile")
+set(TARGET "simulation_csvfile_detectdofver")
 
 set(TARGET_SRC
   ${TARGET}.cc
