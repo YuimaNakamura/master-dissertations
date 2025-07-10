@@ -69,12 +69,12 @@ Each `material_id` assigned via Gmsh's Physical Surfaces is preserved and can be
 This function performs frequency-domain analysis of x-direction displacement data for a specific degree of freedom (DOF) recorded in a ROOT file. It extracts the signal, applies a Fast Fourier Transform (FFT), and visualizes the frequency spectrum.
 
 ✅ Main Processing Steps
-1. Load ROOT File
+1. 📂Load ROOT File
 - Opens the displacement_data.root file.
 
 - Retrieves the displacement TTree containing simulation data.
 
-2. Set Up Data Structures
+2. 🧮Set Up Data Structures
 - Prepares variables to receive values from the TTree branches:
 
 - displacement_x: x-direction displacement
@@ -85,20 +85,20 @@ This function performs frequency-domain analysis of x-direction displacement dat
 
 - dof_index: degree of freedom index
 
-3. Connect Branches
+3. 🔗Connect Branches
 - Links the variables to the corresponding TTree branches for data extraction.
 
-4. Extract Data for a Specific DOF
+4. 🎯Extract Data for a Specific DOF
 - Loops through all TTree entries.
 
 - Filters and collects displacement_x values only for dof_index == 1400 into a signal vector.
 
-5. Prepare for FFT and Perform Transform
+5. ⚙️Prepare for FFT and Perform Transform
 - Initializes arrays for the real and imaginary parts of the signal.
 
 - Uses ROOT’s TVirtualFFT to perform a real-to-complex (R2C) FFT.
 
-6. Define Frequency Axis
+6. 📏Define Frequency Axis
 - Uses the simulation time step size (delta_t = 1e-4 s) to calculate:
 
 - Sampling rate (e.g., 10,000 Hz)
@@ -107,7 +107,7 @@ This function performs frequency-domain analysis of x-direction displacement dat
 
 - Sets up a frequency range for plotting the spectrum.
 
-7. Populate FFT Histogram
+7. 📊Populate FFT Histogram
 - Computes the magnitude (amplitude) of each FFT bin from real and imaginary parts.
 
 - Fills a histogram where:
@@ -116,12 +116,12 @@ This function performs frequency-domain analysis of x-direction displacement dat
 
 - Y-axis = amplitude of displacement
 
-8. Plot and Save Results
+8. 📊Plot and Save Results
 - Displays the histogram on a ROOT canvas.
 
 - Saves the plot as a PDF file named fft_simulation_result.pdf.
 
-9. Cleanup
+9. 🧹Cleanup
 - Frees dynamically allocated memory used for the FFT.
 
 🎯 Purpose of the Function
