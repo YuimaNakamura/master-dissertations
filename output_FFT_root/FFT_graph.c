@@ -1,10 +1,12 @@
+//　ノイズ除去とかはしなくてよい
+
 #include <vector>
 #include <cmath>
 #include "TVirtualFFT.h"
 #include "TH1.h"
 
 
-void FFT() {
+void FFT_graph() {
     const int n_files = 10;
     const char* channels[3] = {"HHE", "HHN", "HHZ"};
     const int n_channels = 3;
@@ -45,15 +47,6 @@ void FFT() {
             tree->Draw(Form("amplitude>>%s", hist_name.Data()), "", "goff");
 
 
-            // ガウス関数でフィッティング (オプションで範囲指定も可)
-            hist->Fit("gaus", "Q", "", -200, 200);  // "Q" はフィッティングの進行状況を表示しないオプション
-
-            // フィット関数の取得
-            TF1 *fitFunc = hist->GetFunction("gaus");
-
-            // フィット結果から平均と標準偏差を取得
-            double mean = fitFunc->GetParameter(1);   // ガウスの平均パラメータ
-            double sigma = fitFunc->GetParameter(2);  // ガウスの標準偏差パラメータ
             int entries = hist->GetEntries();
 
             // キャンバスに描画
@@ -68,67 +61,42 @@ void FFT() {
             hist->Draw();
             gPad->Update();  // ← これを追加
             
-
-            // 統計量出力
-            printf("File: %s, Channel: %s, Fit Mean: %.2f, Fit Sigma: %.2f, Entries: %d\n",
-                hist_name.Data(), channels[ch], mean, sigma, entries);
-            
+ 
             //////////////////////////////////////////////////////////////////////////////////////////////
 
-            // 標準偏差２つ分以上はノイズとみなす
-            int nSigma = 2.0;
 
             // amplitude vs time 描画
             canvas_time->cd(i * n_channels + ch + 1);
-
+            gPad->SetTicks();
             // 除去前（全データ）：黒
             tree->SetLineColor(kBlack);
-            tree->Draw("amplitude:time", "", "L");
 
-            // 除去後（ノイズ除去済みデータ）：赤
-            tree->SetLineColor(kRed);
-            TString selection = Form("amplitude > %f && amplitude < %f", mean - nSigma * sigma, mean + nSigma * sigma);
 
-            gPad->SetTitle(Form("%s (filtered)", filename.Data()));
+
+            gPad->SetTitle(Form("%s", filename.Data()));
             
             gStyle->SetStatH(0.9); // 統計ボックスの高さをキャンバス高さの50%に設定
             gStyle->SetStatW(0.19); // 統計ボックスの幅をキャンバス幅の19%に設定
             gStyle->SetTextSize(0.9);
-            tree->Draw("amplitude:time", selection, "L Same");
-
+            // tree->Draw("amplitude:time", selection, "L Same");
+            tree->Draw("amplitude:time", "", "L");
             gPad->Update();  // ← これを追加
 
-            ////// ノイズ除去後の振幅に関する情報の保存 /////////////////////////////////////////////////////////////////////
-            
-            // ブランチ変数
-            Double_t amp_val = 0.0;
-            Double_t starttime = 0.0;
-            Double_t endtime = 0.0;
-            Double_t npts = 0.0;
-
-            tree->SetBranchAddress("amplitude", &amp_val);
-            tree->SetBranchAddress("starttime", &starttime);
-            tree->SetBranchAddress("endtime", &endtime);
-            tree->SetBranchAddress("npts", &npts);
-
-            // 最初のエントリ（メタ情報）を読み込む
-            tree->GetEntry(0);
+ 
 
 
-
-            ///// ノイズ除去したものを使ってfftする  //////////////////////////////////////////////////////
-
-            // 振幅のノイズ除去データをvectorに格納
+            // 振幅の全データを vector に格納（ノイズ除去なし）
             std::vector<double> filtered_amplitudes;
+
+            Double_t amp_val = 0.0;
+            tree->SetBranchAddress("amplitude", &amp_val);
 
             Long64_t nentries = tree->GetEntries();
             for (Long64_t j = 1; j < nentries; ++j) { // j=1 からデータ部分を読み取る（j=0 はメタ）
                 tree->GetEntry(j);
-
-                if (amp_val > mean - nSigma * sigma && amp_val < mean + nSigma * sigma) {
-                    filtered_amplitudes.push_back(amp_val);
-                }
+                filtered_amplitudes.push_back(amp_val);
             }
+
 
             // データ数を次の2のべき乗にパディング（FFTの高速化のため）
             int N = 1;
@@ -162,7 +130,10 @@ void FFT() {
 
 
             // 統計ボックスの表示設定
-            gStyle->SetOptStat(1111); // 項目ごとに4桁のビットで制御
+            gStyle->SetStatH(0.5); // 統計ボックスの高さをキャンバス高さの50%に設定
+            gStyle->SetStatW(0.19); // 統計ボックスの幅をキャンバス幅の19%に設定
+            gStyle->SetTextSize(0.9);
+            gStyle->SetOptStat(111111); // 項目ごとに4桁のビットで制御
         
 
 
@@ -178,10 +149,6 @@ void FFT() {
             gPad->SetTitle(Form("FFT %s %d", channels[ch], i));
 
 
-
-            gStyle->SetStatH(0.4); // 統計ボックスの高さをキャンバス高さの50%に設定
-            gStyle->SetStatW(0.19); // 統計ボックスの幅をキャンバス幅の19%に設定
-            gStyle->SetTextSize(0.9);
             gPad->Update();  // ← これを追加
 
 
@@ -194,8 +161,8 @@ void FFT() {
     }
 
     
-    canvas_hist->SaveAs("amplitude_histogram.root");
-    canvas_time->SaveAs("amplitude_vs_time.root");
-    canvas_fft->SaveAs("fft_spectrum.root");
+    canvas_hist->SaveAs("amplitude_histogram.pdf");
+    canvas_time->SaveAs("amplitude_vs_time.pdf");
+    canvas_fft->SaveAs("fft_spectrum.pdf");
 
 }
