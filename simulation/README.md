@@ -65,7 +65,7 @@ Each `material_id` assigned via Gmsh's Physical Surfaces is preserved and can be
 <dr>
 <dr>
 
-📊 Overview of simulation_rootfft_graph_editstep()
+## 📊 Overview of simulation_rootfft_graph_editstep()
 This function performs frequency-domain analysis of x-direction displacement data for a specific degree of freedom (DOF) recorded in a ROOT file. It extracts the signal, applies a Fast Fourier Transform (FFT), and visualizes the frequency spectrum.
 
 ✅ Main Processing Steps
