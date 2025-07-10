@@ -1,15 +1,35 @@
 # master-dissertations 
-create_csv.py
-This Python script is responsible for extracting waveform data from MiniSEED files and converting it into CSV format. It handles channel separation (E-W, N-S, Z), timestamps, and amplitude values. The resulting CSV files are stored in a designated intermediate directory for further processing.
+## Workflow Overview
 
-create_root_forFFT.cpp
-This C++ program, using the ROOT framework, reads the CSV files and converts them into ROOT files. It constructs a TTree for each waveform file, storing relevant metadata (e.g., station ID, channel, sampling rate) alongside the time and amplitude data. Time values are converted to a UNIX timestamp format to facilitate FFT analysis.
+### `create_csv.py`  
+- Python script  
+- Extracts waveform data from MiniSEED files and converts it to CSV format  
+- Handles channel separation (E-W, N-S, Z), timestamps, and amplitude values  
+- Output CSV files are saved in an intermediate directory for further processing  
 
-Output Directory
-The converted ROOT files are saved in the output_FFT_root directory. Each file corresponds to one original MiniSEED input file and is named accordingly for clarity and traceability (e.g., waveform_0.root, waveform_1.root, ... waveform_9.root).
+---
 
-Next Steps
-With the ROOT files prepared, users can perform spectral analysis using ROOT’s built-in FFT tools. This enables visualization and comparison of the seismic frequency components across all recorded time intervals and channels.
+### `create_root_forFFT.cpp`  
+- C++ program using the ROOT framework  
+- Reads CSV files and converts them into ROOT files  
+- Creates a TTree for each waveform file containing:  
+  - Metadata such as station ID, channel, and sampling rate  
+  - Time data converted to UNIX timestamp format  
+  - Amplitude data  
+- Data is stored in a format suitable for FFT analysis  
+
+---
+
+### Output Directory  
+- Converted ROOT files are saved in the `output_FFT_root` folder  
+- Each file corresponds to an original MiniSEED file and is named accordingly for easy tracking, e.g.,  
+  - `waveform_0.root`, `waveform_1.root`, …, `waveform_9.root`  
+
+---
+
+### Next Steps  
+- Once ROOT files are prepared, spectral analysis can be performed using ROOT’s built-in FFT tools  
+- This allows visualization and comparison of seismic frequency components across different time intervals and channels  
 
 
 <br>  
