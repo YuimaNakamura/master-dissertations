@@ -4,7 +4,7 @@
 #include "TH1.h"
 
 
-void FFT_mistake() {
+void FFT_save_rootfile() {
     const int n_files = 10;
     const char* channels[3] = {"HHE", "HHN", "HHZ"};
     const int n_channels = 3;
