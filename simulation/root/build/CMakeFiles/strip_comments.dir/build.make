@@ -68,7 +68,7 @@ include CMakeFiles/strip_comments.dir/progress.make
 
 CMakeFiles/strip_comments:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "strip comments"
-	/usr/bin/perl -pi -e 's#^[ \t]*//.*\n##g;' /mnt/c/Users/yuiat/OneDrive\ -\ University\ of\ Sussex/dealii/simulation/root/simulation_csvfile_detectdofver.cc
+	/usr/bin/perl -pi -e 's#^[ \t]*//.*\n##g;' /mnt/c/Users/yuiat/OneDrive\ -\ University\ of\ Sussex/dealii/simulation/root/simulation_csvfile_vector.cc
 
 strip_comments: CMakeFiles/strip_comments
 strip_comments: CMakeFiles/strip_comments.dir/build.make

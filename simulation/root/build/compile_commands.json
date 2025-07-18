@@ -1,8 +1,8 @@
 [
 {
   "directory": "/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build",
-  "command": "/usr/bin/c++ -DDEBUG -isystem /usr/local/include/deal.II/bundled -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /home/yuiat/soft/petsc-install/include -isystem /home/yuiat/soft/hdf5-mpi/include -isystem /home/yuiat/soft/p4est-install/FAST/include -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-unused-local-typedefs -fopenmp-simd -O0 -ggdb -Wa,--compress-debug-sections -o CMakeFiles/simulation_csvfile_detectdofver.dir/simulation_csvfile_detectdofver.cc.o -c \"/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/simulation_csvfile_detectdofver.cc\"",
-  "file": "/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/simulation_csvfile_detectdofver.cc",
-  "output": "CMakeFiles/simulation_csvfile_detectdofver.dir/simulation_csvfile_detectdofver.cc.o"
+  "command": "/usr/bin/c++ -DDEBUG -isystem /usr/local/include/deal.II/bundled -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /home/yuiat/soft/petsc-install/include -isystem /home/yuiat/soft/hdf5-mpi/include -isystem /home/yuiat/soft/p4est-install/FAST/include -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-unused-local-typedefs -fopenmp-simd -O0 -ggdb -Wa,--compress-debug-sections -o CMakeFiles/simulation_csvfile_vector.dir/simulation_csvfile_vector.cc.o -c \"/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/simulation_csvfile_vector.cc\"",
+  "file": "/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/simulation_csvfile_vector.cc",
+  "output": "CMakeFiles/simulation_csvfile_vector.dir/simulation_csvfile_vector.cc.o"
 }
 ]

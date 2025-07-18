@@ -147,7 +147,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=simulation_csvfile_detectdofver
+CMAKE_PROJECT_NAME:STATIC=simulation_csvfile_vector
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -221,13 +221,13 @@ PERL_EXECUTABLE:FILEPATH=/usr/bin/perl
 deal.II_DIR:PATH=/usr/local/lib/cmake/deal.II
 
 //Value Computed by CMake
-simulation_csvfile_detectdofver_BINARY_DIR:STATIC=/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build
+simulation_csvfile_vector_BINARY_DIR:STATIC=/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build
 
 //Value Computed by CMake
-simulation_csvfile_detectdofver_IS_TOP_LEVEL:STATIC=ON
+simulation_csvfile_vector_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-simulation_csvfile_detectdofver_SOURCE_DIR:STATIC=/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root
+simulation_csvfile_vector_SOURCE_DIR:STATIC=/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root
 
 
 ########################

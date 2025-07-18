@@ -66,9 +66,9 @@ include CMakeFiles/run.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/run.dir/progress.make
 
-CMakeFiles/run: simulation_csvfile_detectdofver
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Run simulation_csvfile_detectdofver with Debug configuration"
-	./simulation_csvfile_detectdofver
+CMakeFiles/run: simulation_csvfile_vector
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/mnt/c/Users/yuiat/OneDrive - University of Sussex/dealii/simulation/root/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Run simulation_csvfile_vector with Debug configuration"
+	./simulation_csvfile_vector
 
 run: CMakeFiles/run
 run: CMakeFiles/run.dir/build.make

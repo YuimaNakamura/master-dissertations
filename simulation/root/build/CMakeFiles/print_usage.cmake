@@ -1,7 +1,7 @@
 message(
 "###
 #
-#  Project  simulation_csvfile_detectdofver  set up with  deal.II-9.6.2  found at
+#  Project  simulation_csvfile_vector  set up with  deal.II-9.6.2  found at
 #      /usr/local
 #
 #  CMAKE_BUILD_TYPE:          Debug

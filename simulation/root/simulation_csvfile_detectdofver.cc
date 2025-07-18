@@ -1,6 +1,8 @@
 // deal.IIバージョン: 9.5以降推奨（FE_SimplexPと三角形メッシュ対応）
 // 三角形要素に対応した2D弾性波動方程式の陽的時間積分
 
+//divやcurlを考慮していないバージョンのコード
+
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/function.h>
 #include <deal.II/base/tensor.h>
@@ -408,8 +410,8 @@ namespace ElasticWave2D
     GridIn<dim> grid_in;
     grid_in.attach_triangulation(triangulation);
 
-    std::ifstream input_file("../../simulation1.msh");
-    Assert(input_file, ExcFileNotOpen("simulation1.msh"));
+    std::ifstream input_file("../../simulation2.msh");
+    Assert(input_file, ExcFileNotOpen("simulation2.msh"));
 
     grid_in.read_msh(input_file);
 
