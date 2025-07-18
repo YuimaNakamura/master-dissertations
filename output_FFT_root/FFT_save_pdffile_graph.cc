@@ -118,8 +118,11 @@ void FFT_save_pdffile_graph() {
 
             // スペクトル描画用ヒストグラム
             TString spec_name = Form("fft_spec_%d_%d", i, ch);
-            TH1D* h_spec = new TH1D(spec_name, "FFT Spectrum", N/2, 0, N/2); // 周波数スケールは仮
-
+            ///////////////////////////////////////////////////////////////////
+            double delta_t = 1e-2;
+            double sampling_rate = 1.0 / delta_t;
+            TH1D* h_spec = new TH1D(spec_name, "FFT Spectrum", N/2, 0, sampling_rate / 2);
+            /////////////////////////////////////////////////////////////
             for (int i = 0; i < N/2; ++i) {
                 h_spec->SetBinContent(i + 1, mag[i]);
             }
@@ -138,7 +141,7 @@ void FFT_save_pdffile_graph() {
 
 
             h_spec->SetTitle(Form("FFT Spectrum: File %d, Channel %s", i, channels[ch]));
-            h_spec->GetXaxis()->SetTitle("Frequency bin");
+            h_spec->GetXaxis()->SetTitle("Frequency [Hz]");
             h_spec->GetYaxis()->SetTitle("Amplitude");
             
             h_spec->GetXaxis()->SetLabelSize(0.08); // 数値ラベルのサイズ（通常は0.03〜0.05）

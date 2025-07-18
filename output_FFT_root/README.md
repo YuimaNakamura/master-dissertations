@@ -44,3 +44,4 @@ The following steps were implemented to analyze and visualize the seismic wavefo
 ---
 
 These visual outputs provide intuitive understanding and facilitate comparison of waveform characteristics across multiple events and recording channels.
+
