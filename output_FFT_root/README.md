@@ -1,4 +1,4 @@
-## Analysis and Visualization Steps Using FFT_save_pdffile_graph.cc & FFT_save_rootfile_graph.cc
+## Analysis and Visualization Steps Using FFT_save_pdffile_graph.cc
 
 The following steps were implemented to analyze and visualize the seismic waveform data stored in the ROOT files:
 
