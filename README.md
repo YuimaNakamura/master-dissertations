@@ -151,10 +151,10 @@ $$
   - Switch to the **Surface Workbench** and use the **Filling** tool.
   - Make sure to create the surface bounded by at least two lines.
   - Select the target surfaces and then export them
-  - Export the file via `File → Export` as an **IGES** file.
+  - Export the file via `File → Export` as an **STEP** file.
 
 - 🟢In Gmsh software:
-  - Open the IGES file by selecting `Open` and navigating to the directory.
+  - Open the STEP file by selecting `Open` and navigating to the directory.
   - In Gmsh, go to the **Mesh** menu and select **2D**.
   - Go to `Tools → Options` and check **2D elements faces**.
   - Export the mesh by selecting `File → Export` and save as a **.msh** file.
