@@ -23,7 +23,7 @@
 - **Domain**: Complex geometry created using FreeCAD.
 - **Process**:
   1. Design in **FreeCAD**.
-  2. Export to `.iges`.
+  2. Export to `.step`.
   3. Mesh in **Gmsh** into `.msh` format using triangular elements.
   4. Import into **deal.II** using `GridIn`.
 - **Mesh**: Unstructured triangular mesh.
