@@ -48,6 +48,8 @@ This process automatically creates a corresponding `.geo` file.
    - Change `Element size factor` from `1` to `0.1` (for finer mesh resolution).
 
 5. Export the mesh as `simulation1.msh`.
+6. Change `Element size factor` from `1` to `0.05` Export the mesh as `simulation2.msh`.
+7. Change `Element size factor` from `1` to `0.025` Export the mesh as `simulation3.msh`.
 
 ## Importing into deal.II
 
