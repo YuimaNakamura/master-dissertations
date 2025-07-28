@@ -80,7 +80,9 @@ void FFT_save_pdffile_graph() {
             gStyle->SetTextSize(0.9);
             // tree->Draw("amplitude:time", selection, "L Same");
             tree->Draw("amplitude:time", "", "L");
+            tree->GetHistogram()->GetXaxis()->SetLabelSize(0);  // ← この1行を追加して横軸を消す
             gPad->Update();  // ← これを追加
+            
 
  
 
