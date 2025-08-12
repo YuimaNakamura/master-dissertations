@@ -416,6 +416,8 @@ namespace ElasticWave2D
     std::ifstream input_file("../simulation2.msh");
     Assert(input_file, ExcFileNotOpen("simulation2.msh"));
 
+    //simulation2～4までメッシュが細かくなっていく
+
     grid_in.read_msh(input_file);
 
 
